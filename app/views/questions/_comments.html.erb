@@ -1,8 +1,5 @@
 <% @comments.each do |comment| %>
 	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h3 class="panel-title"> Says:</h3>
-	  </div>
 	  <div class="panel-body">
 	   <%= markdown(comment.body) %>
 	  </div>

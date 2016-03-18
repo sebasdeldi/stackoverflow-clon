@@ -7,6 +7,13 @@ class AnswersController < ApplicationController
   	redirect_to question
   end
 
+  def show
+    @answer = Answer.find(params[:id])
+    @commentable = @answer
+    @answers = @commentable.comments
+    @comment = Comment.new
+  end
+
   private
 	  def answer_params
 	  	params.require(:answer).permit(:body).merge(user: current_user)
