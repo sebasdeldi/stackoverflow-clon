@@ -1,7 +1,14 @@
 class AnswersController < ApplicationController
-  def new
-  end
+
 
   def create
+  	question = Question.find(params[:answer][:question_id])
+  	question.answers.create(answer_params)
+  	redirect_to question
   end
+
+  private
+	  def answer_params
+	  	params.require(:answer).permit(:body).merge(user: current_user)
+	  end
 end

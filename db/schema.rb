@@ -11,16 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160317210825) do
-
-  create_table "answer_comments", force: :cascade do |t|
-    t.string   "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
-  end
-
-  add_index "answer_comments", ["user_id"], name: "index_answer_comments_on_user_id"
+ActiveRecord::Schema.define(version: 20160318135721) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "body"
@@ -33,16 +24,15 @@ ActiveRecord::Schema.define(version: 20160317210825) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
 
-  create_table "question_comments", force: :cascade do |t|
-    t.string   "body"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "user_id"
-    t.integer  "question_id"
+  create_table "comments", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  add_index "question_comments", ["question_id"], name: "index_question_comments_on_question_id"
-  add_index "question_comments", ["user_id"], name: "index_question_comments_on_user_id"
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"

@@ -1,42 +1,99 @@
 <div class="container">
 	<h1><%= @question.title %> </h1>
-	<br>
-	<div class="well">
-		<p><%= @question.body %></p>
-	</div>
+	<hr>
 
+	
 
+	<div class="row">
+		<div class="col-sm-1">
+			
+		</div>
 
-	<div class="question_comments">
-		<%= @question.question_comments.each do |question_comment| %>
-			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title"><%= question_comment.user.email %> Says:</h3>
-			  </div>
-			  <div class="panel-body">
-			   <%= question_comment.body %>
-			  </div>
+		<div class="col-sm-11">
+			<br>
+			<div class="well">
+				<p><%= markdown(@question.body) %></p>
 			</div>
-		<%end%>		
+
+			
+
+			<div class="question_comments">
+				<%= render 'comments' %>	
+			</div>
+
+
+			<% if signed_in? %>
+			  <%= render 'comments_form' %>
+			<% else %>
+
+				<div  class="comment-no-logged-msg">
+					<center><span>You need to be logged in, to comment!</span></center>
+				</div>
+			<%end%>
+
+		</div>
 	</div>
+	<hr>
+	<br>
+	<br>
 
 
-	<% if signed_in? %>
-	  <%= form_for [@question, @question.question_comments.build] do |f| %>
-	    <div class="form-group">
-	    	<%= f.text_field :title, class: "form-control", placeholder: "Writte a comment" %>
-	    </div>
 
-	    <div>
-	      <%= f.submit "Comment", class: "btn btn-default" %>
-	    </div>
-	  <% end %>
-	<% else %>
+	<div class="row">
+		<h1><%=@question.answers.count%> Answer(s)</h1>
+		<hr>
+		<div class="col-sm-1">
+			
+		</div>
 
-	<div  class="comment-no-logged-msg">
-		<center><span>You need to be logged in, to comment!</span></center>
-	</div>
+		<div class = "col-sm-11">
+			<div class="answers-section">
+				<div class="answers-display">
+					<% @question.answers.each do |answer| %>
+						<div class="well">
+
+							<%= markdown(answer.body) %>
+						</div>
+
+						<div class="answer-comments">
+							<%= render 'comments' %>
+						</div>
+						
+
+						<div class="answers-comments-form">
+							<% if signed_in? %>
+							  <%= render 'comments_form' %>
+							<% else %>
+
+								<div  class="comment-no-logged-msg">
+									<center><span>You need to be logged in, to comment!</span></center>
+								</div>
+							<%end%>
+						</div>
+
+						<hr>
+
+					<%end%>	
+				</div>
+
+				<div class="answers-form">
+					<%if signed_in? %>
+						<%= form_for [@question.answers.build] do |f| %>
+							<%= f.hidden_field(:question_id, :value => @question.id) %>
+							<div class="form-group">
+								<%= f.text_area :body, class: "form-control large", rows: "10", placeholder: "Submit your answer" %>
+							</div>
+
+							<div>
+							  <%= f.submit "Answer", class: "btn btn-default" %>
+							</div>
+						<%end%>
+					<%end%>
+				</div>
+			</div>
+			
+			
+		</div>
 		
-	<% end %>
-
+	</div>
 </div>
