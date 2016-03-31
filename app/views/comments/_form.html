@@ -1,0 +1,10 @@
+<%= form_for [commentable, Comment.new] do |f| %>
+	<div class="form-group">
+		<%= f.text_area :body, class: "form-control", placeholder: "Add a comment" %>
+		<br>
+		<%= f.submit class: "btn" %>
+	</div>
+<% end %>
+
+<!-- genera POST /questions/1/comments-->	   
+<!--        POST /answers/1/comments -->

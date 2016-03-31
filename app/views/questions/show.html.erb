@@ -5,12 +5,14 @@
 	
 
 	<div class="row">
+
 		<div class="col-sm-1">
 			
 		</div>
 
 		<div class="col-sm-11">
 			<br>
+			<p>Question by <%= @question.user.email %></p>
 			<div class="well">
 				<p><%= markdown(@question.body) %></p>
 			</div>
@@ -18,12 +20,13 @@
 			
 
 			<div class="question_comments">
-				<%= render 'comments' %>	
+				<%= render partial: "comments/comments", locals: { commentable: @question }%>	
 			</div>
 
 
 			<% if signed_in? %>
-			  <%= render 'comments_form' %>
+				<%= render partial: "comments/form", locals: { commentable: @question }%>
+			  
 			<% else %>
 
 				<div  class="comment-no-logged-msg">
@@ -50,19 +53,22 @@
 			<div class="answers-section">
 				<div class="answers-display">
 					<% @question.answers.each do |answer| %>
+						<p>Answer by: <%= answer.user.email %></p>
 						<div class="well">
 
 							<%= markdown(answer.body) %>
 						</div>
 
+						
+
 						<div class="answer-comments">
-							<%= render 'comments' %>
+							<%= render partial: "comments/comments", locals: { commentable: answer }%>
 						</div>
 						
 
 						<div class="answers-comments-form">
 							<% if signed_in? %>
-							  <%= render 'comments_form' %>
+								<%= render partial: "comments/form", locals: { commentable: answer }%>
 							<% else %>
 
 								<div  class="comment-no-logged-msg">
@@ -70,6 +76,9 @@
 								</div>
 							<%end%>
 						</div>
+	
+
+						
 
 						<hr>
 
