@@ -4,10 +4,14 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   resources :questions do
+    put 'like' => 'questions#upVote'
+    put 'dislike' => 'questions#downVote'
     resources :comments, only: [:create], module: :questions
   end
 
   resources :answers do
+    put 'like' => 'answers#upVote'
+    put 'dislike' => 'answers#downVote'
     resources :comments, only: [:create], module: :answers
   end
 

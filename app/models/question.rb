@@ -11,6 +11,7 @@
 #
 
 class Question < ActiveRecord::Base
+	acts_as_votable
 	belongs_to :user
 	has_many :answers
 	has_many :comments, as: :commentable

@@ -7,7 +7,16 @@
 	<div class="row">
 
 		<div class="col-sm-1">
-			
+			<br>
+			<%= link_to question_like_path(@question), method: :put do %>
+				Upvote
+			<%end%>
+			<br>
+			<%= calculate_votes_for(@question)%>
+			<br>
+			<%= link_to question_dislike_path(@question), method: :put do %>
+				Downvote
+			<%end%>
 		</div>
 
 		<div class="col-sm-11">
@@ -45,14 +54,32 @@
 	<div class="row">
 		<h1><%=@question.answers.count%> Answer(s)</h1>
 		<hr>
-		<div class="col-sm-1">
-			
-		</div>
+		<br>
+		
 
-		<div class = "col-sm-11">
-			<div class="answers-section">
-				<div class="answers-display">
-					<% @question.answers.each do |answer| %>
+		<% @question.answers.each do |answer| %>
+
+			<div class="col-sm-1">
+				
+				<%= link_to answer_like_path(answer), method: :put do %>
+					Upvote
+					
+				<%end%>
+				<br>
+				<%= calculate_votes_for(answer)%>
+				
+				<br>
+
+				<%= link_to answer_dislike_path(answer), method: :put do %>
+					Downvote
+					
+				<%end%>
+			</div>
+			
+			<div class = "col-sm-11">
+				<div class="answers-section">
+					<div class="answers-display">
+						
 						<p>Answer by: <%= answer.user.email %></p>
 						<div class="well">
 
@@ -76,33 +103,42 @@
 								</div>
 							<%end%>
 						</div>
-	
+
 
 						
 
 						<hr>
 
-					<%end%>	
-				</div>
+						
+					</div>
 
-				<div class="answers-form">
-					<%if signed_in? %>
-						<%= form_for [@question.answers.build] do |f| %>
-							<%= f.hidden_field(:question_id, :value => @question.id) %>
-							<div class="form-group">
-								<%= f.text_area :body, class: "form-control large", rows: "10", placeholder: "Submit your answer" %>
-							</div>
-
-							<div>
-							  <%= f.submit "Answer", class: "btn btn-default" %>
-							</div>
-						<%end%>
-					<%end%>
+					
 				</div>
 			</div>
-			
-			
+
+		<% end %>
+	</div>
+
+	<div class="answers-form">
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-11">
+				<%if signed_in? %>
+					<%= form_for [@question.answers.build] do |f| %>
+						<%= f.hidden_field(:question_id, :value => @question.id) %>
+						<div class="form-group">
+							<%= f.text_area :body, class: "form-control large", rows: "10", placeholder: "Submit your answer" %>
+						</div>
+
+						<div>
+						  <%= f.submit "Answer", class: "btn btn-default" %>
+						</div>
+					<%end%>
+				<%end%>
+			</div>
 		</div>
 		
+		
 	</div>
+
 </div>

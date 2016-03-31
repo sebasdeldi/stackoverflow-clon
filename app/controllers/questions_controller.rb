@@ -19,6 +19,18 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def upVote
+    @question = Question.find(params[:question_id])
+    @question.upvote_by current_user
+    redirect_to :back
+  end
+
+  def downVote
+    @question = Question.find(params[:question_id])
+    @question.downvote_by current_user
+    redirect_to :back
+  end
+
   def edit
   end
 

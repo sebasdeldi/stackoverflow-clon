@@ -4,4 +4,8 @@ module ApplicationHelper
 	    autolink: true, tables: true, quote: true, highlight: true, underline: true)
 		return markdown.render(text).html_safe
 	end
+
+	def calculate_votes_for(resource)
+		resource.get_upvotes.size  - resource.get_downvotes.size
+	end
 end
