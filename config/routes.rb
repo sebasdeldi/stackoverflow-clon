@@ -3,15 +3,20 @@ Rails.application.routes.draw do
   devise_for :users
   root 'questions#index'
 
+
   resources :questions do
     put 'like' => 'questions#upVote'
+    delete 'like' => 'questions#destroyVote'
     put 'dislike' => 'questions#downVote'
+    delete 'dislike' => 'questions#destroyVote'
     resources :comments, only: [:create], module: :questions
   end
 
   resources :answers do
     put 'like' => 'answers#upVote'
+    delete 'like' => 'answers#destroyVote'
     put 'dislike' => 'answers#downVote'
+    delete 'dislike' => 'answers#destroyVote'
     resources :comments, only: [:create], module: :answers
   end
 

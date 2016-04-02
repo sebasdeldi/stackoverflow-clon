@@ -6,18 +6,63 @@
 
 	<div class="row">
 
-		<div class="col-sm-1">
-			<br>
-			<%= link_to question_like_path(@question), method: :put do %>
-				Upvote
+		
+
+		<div class="col-sm-1" style="font-size: 30px; color:#606060; text-align: center;">
+
+
+			
+			<% if signed_in? %>
+
+				<% if (current_user.voted_up_on? @question) %>
+
+				  	<%= link_to question_like_path(@question), method: :delete do %>
+
+					    <span class="glyphicon glyphicon-triangle-top col-md-12"></span>
+				    
+				  	<% end %>
+
+				<%else %>
+					<%= link_to question_like_path(@question), method: :put do %>
+						<span class="glyphicon glyphicon-triangle-top col-md-12"></span>
+						
+					<%end%>
+				<%end%>
+
+			<%else%>
+				<span class="glyphicon glyphicon-triangle-top col-md-12"></span>
 			<%end%>
-			<br>
-			<%= calculate_votes_for(@question)%>
-			<br>
-			<%= link_to question_dislike_path(@question), method: :put do %>
-				Downvote
-			<%end%>
+	  		
+
+  		  	
+	  		
+
+	  		<span class="col-md-12"><%= calculate_votes_for(@question)%></span>
+	  		
+	  		
+	  		<% if signed_in? %>
+
+				<% if (current_user.voted_down_on? @question) %>
+		  		  	<%= link_to question_dislike_path(@question), method: :delete do %>
+
+		  			    <span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+		  		    
+		  		  	<% end %>
+
+		  		<%else %>
+		  			<%= link_to question_dislike_path(@question), method: :put do %>
+		  				<span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+		  				
+		  			<%end%>  
+		  		<%end%> 
+		  	<%else%>
+		  		<span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+		  	<%end%>   
+			 
 		</div>
+		<br>
+		
+		
 
 		<div class="col-sm-11">
 			<br>
@@ -34,12 +79,13 @@
 
 
 			<% if signed_in? %>
+
 				<%= render partial: "comments/form", locals: { commentable: @question }%>
 			  
 			<% else %>
 
 				<div  class="comment-no-logged-msg">
-					<center><span>You need to be logged in, to comment!</span></center>
+					<center><span>You need to be logged in, to comment or vote!</span></center>
 				</div>
 			<%end%>
 
@@ -59,21 +105,49 @@
 
 		<% @question.answers.each do |answer| %>
 
-			<div class="col-sm-1">
-				
-				<%= link_to answer_like_path(answer), method: :put do %>
-					Upvote
-					
-				<%end%>
-				<br>
-				<%= calculate_votes_for(answer)%>
-				
-				<br>
+			<div class="col-sm-1" style="font-size: 30px; color:#606060; text-align: center;">
 
-				<%= link_to answer_dislike_path(answer), method: :put do %>
-					Downvote
-					
+
+				<% if signed_in?  %>
+					<% if (current_user.voted_up_on? answer)%>
+						<%= link_to answer_like_path(answer), method: :delete do %>
+	  			    		<span class="glyphicon glyphicon-triangle-top col-md-12"></span>  
+	  		  			<% end %>
+	  		  		<%else%>
+						<%= link_to answer_like_path(answer), method: :put do %>
+							<span class="glyphicon glyphicon-triangle-top col-md-12"></span>
+							
+						<%end%>
+					<%end%>
+				<%else%>
+					<span class="glyphicon glyphicon-triangle-top col-md-12"></span>
 				<%end%>
+
+
+
+
+		  		<span class="col-md-12"><%= calculate_votes_for(answer)%></span>
+
+
+		  		<% if signed_in?  %>
+					<% if (current_user.voted_down_on? answer)%>
+						<%= link_to answer_dislike_path(answer), method: :delete do %>
+							<span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+							
+						<%end%> 
+	  		  		<%else%>
+						<%= link_to answer_dislike_path(answer), method: :put do %>
+							<span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+							
+						<%end%> 
+					<%end%>
+				<%else%>
+					<span class="glyphicon glyphicon-triangle-bottom col-md-12"></span>
+				<%end%>
+		  		
+		  		
+		  		  
+				 
 			</div>
 			
 			<div class = "col-sm-11">
@@ -99,7 +173,7 @@
 							<% else %>
 
 								<div  class="comment-no-logged-msg">
-									<center><span>You need to be logged in, to comment!</span></center>
+									<center><span>You need to be logged in, to comment or vote!</span></center>
 								</div>
 							<%end%>
 						</div>
@@ -137,8 +211,13 @@
 				<%end%>
 			</div>
 		</div>
-		
-		
+	<br>
+	<br>
 	</div>
 
 </div>
+
+
+
+
+

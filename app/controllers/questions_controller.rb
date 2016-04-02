@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  before_action :private_access, except: [:index, :show]
+
   def index
     @questions = Question.all
     if params[:title].present?
@@ -31,6 +33,14 @@ class QuestionsController < ApplicationController
     redirect_to :back
   end
 
+  def destroyVote
+    @question = Question.find(params[:question_id])
+    @question.votes_for.where(voter_id: current_user).take.try(:destroy)
+    redirect_to :back
+  end
+
+  
+
   def edit
   end
 
@@ -42,6 +52,8 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
+    # @current_user_voted_up_question = (current_user.voted_up_on? @question)
+    # @current_user_voted_down_question = (current_user.voted_down_on? @question) 
   end
 
   private

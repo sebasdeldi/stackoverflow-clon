@@ -19,6 +19,12 @@ class AnswersController < ApplicationController
     redirect_to :back
   end
 
+  def destroyVote
+    @answer = Answer.find(params[:answer_id])
+    @answer.votes_for.where(voter_id: current_user).take.try(:destroy)
+    redirect_to :back
+  end
+
  
 
   private
